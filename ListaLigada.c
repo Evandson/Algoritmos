@@ -16,6 +16,19 @@ void inserirInicio(No** inicio, int numero){
     *inicio = novo;
 }
 
+void inserirMeio(No** inicio, int numero){ //metodo não funciona
+    No* anterior = NULL;
+    No* percorre = *inicio;
+    No* novo = malloc(sizeof(No));
+    novo->numero = numero;
+    while (percorre != NULL && percorre->numero < numero){
+        anterior = percorre;
+        percorre = percorre->proximo;
+    }
+    novo->proximo = anterior->proximo;
+    anterior->proximo = novo;
+}
+
 void inserirFim(No** inicio, int numero){
     No* ultimo;
     No* novo = malloc(sizeof(No));
@@ -42,6 +55,19 @@ void removeInicio(No** inicio){
     }
 }
 
+void removeMeio(No** inicio){ //metodo não funciona
+    No* anterior;
+    No* verifica;
+    anterior = NULL;
+    verifica = *inicio;
+    while(verifica != NULL){
+        anterior = verifica;
+        verifica = verifica->proximo;
+    }
+    anterior->proximo = verifica->proximo;
+    free(verifica);
+}
+
 void removeFim(No** inicio){
     No* penultimo;
     No* ultimo;
@@ -59,6 +85,18 @@ void removeFim(No** inicio){
     }
 }
 
+void buscaElemento(No** inicio, int numero){
+    No* atual;
+    atual = *inicio;
+    while (atual != NULL){
+        if (atual->numero == numero){
+            printf("Elemento encontrado!");
+            break;
+        }
+        atual = atual->proximo;
+    }
+}
+
 void imprimir(No* inicio){
     while(inicio){
         printf("%d ", inicio->numero);
@@ -71,19 +109,19 @@ int main(){
 
     printf("\n");
     printf("200, 45, 2, 10 e 5 INSERIDOS no INICIO: ");
-    inserirInicio(&inicio,5);
-    inserirInicio(&inicio,10);
-    inserirInicio(&inicio,2);
-    inserirInicio(&inicio,45);
-    inserirInicio(&inicio,200);
+    inserirInicio(&inicio, 5);
+    inserirInicio(&inicio, 10);
+    inserirInicio(&inicio, 2);
+    inserirInicio(&inicio, 45);
+    inserirInicio(&inicio, 200);
     imprimir(inicio);
 
     printf("\n");
     printf("350, 100, 50 e 60 INSERIDOS no FINAL: ");
-    inserirFim(&inicio,60);
-    inserirFim(&inicio,50);
-    inserirFim(&inicio,100);
-    inserirFim(&inicio,350);
+    inserirFim(&inicio, 60);
+    inserirFim(&inicio, 50);
+    inserirFim(&inicio, 100);
+    inserirFim(&inicio, 350);
     imprimir(inicio);
     printf("\n");
 
@@ -97,5 +135,17 @@ int main(){
     removeFim(&inicio);
     imprimir(inicio);
     printf("\n");
+
+    printf("\n");
+    printf("BUSCANDO elemento 5: ");
+    buscaElemento(&inicio, 5);
+
+    printf("\n");
+    printf("77 INSERIDO no MEIO: ");
+    inserirMeio(&inicio, 77);
+    imprimir(inicio);
+
+    //removeMeio(&inicio);
+    //imprimir(inicio);
     return 0;
 }
