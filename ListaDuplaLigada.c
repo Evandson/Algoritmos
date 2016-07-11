@@ -10,10 +10,10 @@ typedef struct No {
     struct No *proximo, *anterior;
 }No;
 
-No* inicio = NULL;
+No *inicio = NULL;
 
-void inserirInicio(No** inicio, int numero){
-    No* novo = malloc(sizeof(No));
+void inserirInicio(No* *inicio, int numero){
+    No *novo = malloc(sizeof(No));
     novo->numero = numero;
     novo->proximo = *inicio;
     novo->anterior = NULL;
@@ -22,9 +22,9 @@ void inserirInicio(No** inicio, int numero){
     *inicio = novo;
 }
 
-void inserirMeio(No** inicio, int numero){
+void inserirMeio(No* *inicio, int numero){
     No *aux, *atual = *inicio;
-    No* novo = malloc(sizeof(No));
+    No *novo = malloc(sizeof(No));
     novo->numero = numero;
     if(*inicio == NULL){
         novo->proximo = NULL;
@@ -53,9 +53,9 @@ void inserirMeio(No** inicio, int numero){
     }
 }
 
-void inserirFim(No** inicio, int numero){
-    No* ultimo;
-    No* novo = malloc(sizeof(No));
+void inserirFim(No* *inicio, int numero){
+    No *ultimo;
+    No *novo = malloc(sizeof(No));
     novo->numero = numero;
     novo->proximo = NULL;
     if(*inicio == NULL){
@@ -69,7 +69,7 @@ void inserirFim(No** inicio, int numero){
     }
 }
 
-void removeInicio(No** inicio){
+void removeInicio(No* *inicio){
     No *velho;
     if (*inicio == NULL){
         printf("Lista vazia!");
@@ -82,7 +82,7 @@ void removeInicio(No** inicio){
     }
 }
 
-void removeMeio(No** inicio, int numero){
+void removeMeio(No* *inicio, int numero){
     No *velho;
     if(*inicio == NULL)
         printf("\n lista vazia, não pode remover! \n");
@@ -102,7 +102,7 @@ void removeMeio(No** inicio, int numero){
 }
 
 void removeFim(No** inicio){
-    No* velho;
+    No *velho;
     if(*inicio == NULL)
         printf("Lista vazia");
     velho = *inicio;
