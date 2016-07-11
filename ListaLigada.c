@@ -9,29 +9,40 @@ typedef struct No {
     struct No *proximo;
 }No;
 
-void inserirInicio(No** inicio, int numero){
-    No* novo = malloc(sizeof(No));
+No* inicio = NULL;
+
+void inserirInicio(No* *inicio, int numero){
+    No *novo = malloc(sizeof(No));
     novo->numero = numero;
     novo->proximo = *inicio;
     *inicio = novo;
 }
 
-void inserirMeio(No** inicio, int numero){ //metodo não funciona
-    No* anterior = NULL;
-    No* percorre = *inicio;
-    No* novo = malloc(sizeof(No));
+void inserirMeio(No* *inicio, int numero){
+    No *aux, *atual = *inicio;
+    No *novo = malloc(sizeof(No));
     novo->numero = numero;
-    while (percorre != NULL && percorre->numero < numero){
-        anterior = percorre;
-        percorre = percorre->proximo;
+    if(*inicio == NULL) {//insere no inicio
+        novo->proximo = *inicio;
+        *inicio = novo;
+    } else {
+        while(atual != NULL && atual->numero < numero){
+            aux = atual;
+            atual = atual->proximo;
+        }
+        if(atual == *inicio){
+            novo->proximo = *inicio;
+            *inicio = novo;
+        } else {
+            novo->proximo = aux->proximo;
+            aux->proximo = novo;
+        }
     }
-    novo->proximo = anterior->proximo;
-    anterior->proximo = novo;
 }
 
-void inserirFim(No** inicio, int numero){
-    No* ultimo;
-    No* novo = malloc(sizeof(No));
+void inserirFim(No* *inicio, int numero){
+    No *ultimo;
+    No *novo = malloc(sizeof(No));
     novo->numero = numero;
     novo->proximo = NULL;
     if(*inicio == NULL){
@@ -44,8 +55,8 @@ void inserirFim(No** inicio, int numero){
         }
     }
 
-void removeInicio(No** inicio){
-    No* velho;
+void removeInicio(No* *inicio){
+    No *velho;
     velho = *inicio;
     if (velho == NULL){
         printf("Lista Vazia");
@@ -55,22 +66,26 @@ void removeInicio(No** inicio){
     }
 }
 
-void removeMeio(No** inicio){ //metodo não funciona
-    No* anterior;
-    No* verifica;
-    anterior = NULL;
-    verifica = *inicio;
-    while(verifica != NULL){
-        anterior = verifica;
-        verifica = verifica->proximo;
+void removeMeio(No* *inicio, int numero){
+    if(*inicio == NULL)
+        printf("Lista vazia! ");
+    No *anterior, *velho = *inicio;
+    while (velho != NULL && velho->numero != numero){
+        anterior = velho;
+        velho = velho->proximo;
     }
-    anterior->proximo = verifica->proximo;
-    free(verifica);
+    if(velho == NULL)
+        printf("Elemento inexistente! ");
+    if(velho == *inicio)
+        *inicio = velho->proximo;
+    else
+        anterior->proximo = velho->proximo;
+    free(velho);
 }
 
-void removeFim(No** inicio){
-    No* penultimo;
-    No* ultimo;
+void removeFim(No* *inicio){
+    No *penultimo;
+    No *ultimo;
     penultimo = *inicio;
     if (penultimo == NULL){
         printf("Lista Vazia");
@@ -85,8 +100,8 @@ void removeFim(No** inicio){
     }
 }
 
-void buscaElemento(No** inicio, int numero){
-    No* atual;
+void buscaElemento(No* *inicio, int numero){
+    No *atual;
     atual = *inicio;
     while (atual != NULL){
         if (atual->numero == numero){
@@ -105,47 +120,43 @@ void imprimir(No* inicio){
 }
 
 int main(){
-    No* inicio = NULL;
-
     printf("\n");
-    printf("200, 45, 2, 10 e 5 INSERIDOS no INICIO: ");
+    printf("1, 2, 3, 5 e 6 INSERIDOS no INICIO: ");
+    inserirInicio(&inicio, 6);
     inserirInicio(&inicio, 5);
-    inserirInicio(&inicio, 10);
+    inserirInicio(&inicio, 3);
     inserirInicio(&inicio, 2);
-    inserirInicio(&inicio, 45);
-    inserirInicio(&inicio, 200);
+    inserirInicio(&inicio, 1);
     imprimir(inicio);
 
     printf("\n");
-    printf("350, 100, 50 e 60 INSERIDOS no FINAL: ");
-    inserirFim(&inicio, 60);
-    inserirFim(&inicio, 50);
-    inserirFim(&inicio, 100);
-    inserirFim(&inicio, 350);
+    printf("7, 8, 9 e 10 INSERIDOS no FINAL: ");
+    inserirFim(&inicio, 7);
+    inserirFim(&inicio, 8);
+    inserirFim(&inicio, 9);
+    inserirFim(&inicio, 10);
+    imprimir(inicio);
+    printf("\n");
+
+    printf("4 INSERIDO no MEIO: ");
+    inserirMeio(&inicio, 4);
     imprimir(inicio);
     printf("\n");
 
     printf("\n");
-    printf("200 foi REMOVIDO no INICIO: ");
+    printf("1 foi REMOVIDO no INICIO: ");
     removeInicio(&inicio);
     imprimir(inicio);
-
     printf("\n");
-    printf("350 foi REMOVIDO no FIM: ");
+
+    printf("10 foi REMOVIDO no FIM: ");
     removeFim(&inicio);
     imprimir(inicio);
     printf("\n");
 
-    printf("\n");
-    printf("BUSCANDO elemento 5: ");
-    buscaElemento(&inicio, 5);
-
-    printf("\n");
-    printf("77 INSERIDO no MEIO: ");
-    inserirMeio(&inicio, 77);
+    printf("5 foi REMOVIDO no MEIO: ");
+    removeMeio(&inicio, 5);
     imprimir(inicio);
 
-    //removeMeio(&inicio);
-    //imprimir(inicio);
     return 0;
 }

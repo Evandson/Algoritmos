@@ -91,7 +91,7 @@ void removeMeio(No* *inicio, int numero){
         velho = velho->proximo;
     }
     if(velho == NULL)
-        printf("Elemento inexistent!");
+        printf("Elemento inexistente!");
     if(velho->anterior == NULL)
         *inicio = velho->proximo;
     else
@@ -101,7 +101,7 @@ void removeMeio(No* *inicio, int numero){
     free(velho);
 }
 
-void removeFim(No** inicio){
+void removeFim(No* *inicio){
     No *velho;
     if(*inicio == NULL)
         printf("Lista vazia");
@@ -151,16 +151,15 @@ int main(){
     printf("1 foi REMOVIDO no INICIO: ");
     removeInicio(&inicio);
     listar(inicio);
-
     printf("\n");
+
     printf("10 foi REMOVIDO no FIM: ");
     removeFim(&inicio);
     listar(inicio);
     printf("\n");
 
-    printf("10 foi REMOVIDO no MEIO: ");
-    printf("\n");
-    removeMeio(&inicio, 20);
+    printf("5 foi REMOVIDO no MEIO: ");
+    removeMeio(&inicio, 5);
     listar(inicio);
 
     return 0;
