@@ -70,12 +70,50 @@ void inserirFim(No** inicio, int numero){
 }
 
 void removeInicio(No** inicio){
+    No *velho;
+    if (*inicio == NULL){
+        printf("Lista vazia!");
+    } else {
+        velho = *inicio;
+        *inicio = velho->proximo;
+        if(velho->proximo != NULL)
+            velho->proximo->anterior = NULL;
+        free(velho);
+    }
 }
 
-void removeMeio(No** inicio){
+void removeMeio(No** inicio, int numero){
+    No *velho;
+    if(*inicio == NULL)
+        printf("\n lista vazia, não pode remover! \n");
+    velho = *inicio;
+    while(velho != NULL && velho->numero != numero){
+        velho = velho->proximo;
+    }
+    if(velho == NULL)
+        printf("Elemento inexistent!");
+    if(velho->anterior == NULL)
+        *inicio = velho->proximo;
+    else
+        velho->anterior->proximo = velho->proximo;
+    if(velho->proximo != NULL)
+        velho->proximo->anterior = velho->anterior;
+    free(velho);
 }
 
 void removeFim(No** inicio){
+    No* velho;
+    if(*inicio == NULL)
+        printf("Lista vazia");
+    velho = *inicio;
+    while(velho->proximo != NULL)
+        velho = velho->proximo;
+    if(velho->anterior == NULL)
+        *inicio = velho->proximo;
+    else
+        velho->anterior->proximo = NULL;
+    free(velho);
+
 }
 
 void listar(No* inicio){
@@ -104,9 +142,25 @@ int main(){
     listar(inicio);
     printf("\n");
 
-    printf("\n");
     printf("4 INSERIDO no MEIO: ");
     inserirMeio(&inicio, 4);
+    listar(inicio);
+    printf("\n");
+
+    printf("\n");
+    printf("1 foi REMOVIDO no INICIO: ");
+    removeInicio(&inicio);
+    listar(inicio);
+
+    printf("\n");
+    printf("10 foi REMOVIDO no FIM: ");
+    removeFim(&inicio);
+    listar(inicio);
+    printf("\n");
+
+    printf("10 foi REMOVIDO no MEIO: ");
+    printf("\n");
+    removeMeio(&inicio, 20);
     listar(inicio);
 
     return 0;
