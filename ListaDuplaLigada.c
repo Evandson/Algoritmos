@@ -23,6 +23,34 @@ void inserirInicio(No** inicio, int numero){
 }
 
 void inserirMeio(No** inicio, int numero){
+    No *aux, *atual = *inicio;
+    No* novo = malloc(sizeof(No));
+    novo->numero = numero;
+    if(*inicio == NULL){
+        novo->proximo = NULL;
+        novo->anterior = NULL;
+        *inicio = novo;
+        printf("\n a lista estava vazia, inseriu no inicio! ");
+    } else { //vai procurar onde inserir..
+        while(atual != NULL && atual->numero < numero){
+            aux = atual;
+            atual = atual->proximo;
+        }
+        if(atual == *inicio){//insere no inicio
+            novo->anterior = NULL;
+            (*inicio)->anterior = novo;
+            novo->proximo = *inicio;
+            *inicio = novo;
+            printf("\n Era igual ao primeiro elemento da lista, inseriu no inicio!\n ");
+        } else {
+            novo->proximo = aux->proximo;
+            novo->anterior = aux;
+            aux->proximo = novo;
+            if(atual != NULL){
+                atual->anterior = novo;
+            }
+        }
+    }
 }
 
 void inserirFim(No** inicio, int numero){
@@ -59,21 +87,27 @@ void listar(No* inicio){
 
 int main(){
     printf("\n");
-    printf("200, 45, 2, 10 e 5 INSERIDOS no INICIO: ");
+    printf("1, 2, 3, 5 e 6 INSERIDOS no INICIO: ");
+    inserirInicio(&inicio, 6);
     inserirInicio(&inicio, 5);
-    inserirInicio(&inicio, 10);
+    inserirInicio(&inicio, 3);
     inserirInicio(&inicio, 2);
-    inserirInicio(&inicio, 45);
-    inserirInicio(&inicio, 200);
+    inserirInicio(&inicio, 1);
     listar(inicio);
 
     printf("\n");
-    printf("350, 100, 50 e 60 INSERIDOS no FINAL: ");
-    inserirFim(&inicio, 60);
-    inserirFim(&inicio, 50);
-    inserirFim(&inicio, 100);
-    inserirFim(&inicio, 350);
+    printf("7, 8, 9 e 10 INSERIDOS no FINAL: ");
+    inserirFim(&inicio, 7);
+    inserirFim(&inicio, 8);
+    inserirFim(&inicio, 9);
+    inserirFim(&inicio, 10);
     listar(inicio);
     printf("\n");
+
+    printf("\n");
+    printf("4 INSERIDO no MEIO: ");
+    inserirMeio(&inicio, 4);
+    listar(inicio);
+
     return 0;
 }
