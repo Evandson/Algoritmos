@@ -23,10 +23,10 @@ void inserirInicio(No* *inicio, int numero){
 }
 
 void inserirMeio(No* *inicio, int numero){
-    No *aux, *atual = *inicio;
+    No *aux, *atual = *inicio; //nós auxiliares
     No *novo = malloc(sizeof(No));
     novo->numero = numero;
-    if(*inicio == NULL){
+    if(*inicio == NULL){//lista vazia
         novo->proximo = NULL;
         novo->anterior = NULL;
         *inicio = novo;
@@ -36,17 +36,17 @@ void inserirMeio(No* *inicio, int numero){
             aux = atual;
             atual = atual->proximo;
         }
-        if(atual == *inicio){//insere no inicio
+        if(atual == *inicio){//insere no inicio, o numero para inserir é menor
             novo->anterior = NULL;
             (*inicio)->anterior = novo;
             novo->proximo = *inicio;
             *inicio = novo;
             printf("\n Era igual ao primeiro elemento da lista, inseriu no inicio!\n ");
-        } else {
+        } else { // insere no meio ou fim
             novo->proximo = aux->proximo;
             novo->anterior = aux;
             aux->proximo = novo;
-            if(atual != NULL){
+            if(atual != NULL){ //está no meio da lista
                 atual->anterior = novo;
             }
         }
@@ -54,11 +54,12 @@ void inserirMeio(No* *inicio, int numero){
 }
 
 void inserirFim(No* *inicio, int numero){
-    No *ultimo;
+    No *ultimo;// ponteiro auxiliar
     No *novo = malloc(sizeof(No));
     novo->numero = numero;
     novo->proximo = NULL;
-    if(*inicio == NULL){
+    if(*inicio == NULL){ // se a lista for vazia-> insere no inicio
+        novo->anterior = NULL;
         *inicio = novo;
     } else {
         ultimo = *inicio;
@@ -76,8 +77,6 @@ void removeInicio(No* *inicio){
     } else {
         velho = *inicio;
         *inicio = velho->proximo;
-        if(velho->proximo != NULL)
-            velho->proximo->anterior = NULL;
         free(velho);
     }
 }
@@ -92,8 +91,9 @@ void removeMeio(No* *inicio, int numero){
     }
     if(velho == NULL)
         printf("Elemento inexistente!");
-    if(velho->anterior == NULL)
+    if(velho->anterior == NULL)// removendo o primeiro elemento da lista
         *inicio = velho->proximo;
+    //remoção no meio ou no final
     else
         velho->anterior->proximo = velho->proximo;
     if(velho->proximo != NULL)
@@ -108,7 +108,7 @@ void removeFim(No* *inicio){
     velho = *inicio;
     while(velho->proximo != NULL)
         velho = velho->proximo;
-    if(velho->anterior == NULL)
+    if(velho->anterior == NULL)// só tem um elemento na lista
         *inicio = velho->proximo;
     else
         velho->anterior->proximo = NULL;
